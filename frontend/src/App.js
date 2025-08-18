@@ -101,7 +101,7 @@ function App() {
       </div>
 
       <div style={{ marginTop: "20px" }}>
-        <button className="download-btn" onClick={downloadOutfit}>
+        <button className="download-button" onClick={downloadOutfit}>
           Download Outfit
         </button>
       </div>

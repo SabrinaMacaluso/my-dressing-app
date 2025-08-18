@@ -1,29 +1,26 @@
-// src/components/AvailableClothes.js
-function AvailableClothes({ clothes, category, onHover, onLeave, onClick, onChangeLayer, currentClothes }) {
-  if (!Array.isArray(clothes)) return null;
+import "../AvailableClothes.css";
 
-  // Only the selected item in this category can change layer
-  const selectedItem = currentClothes[category];
+function AvailableClothes({ clothes, category, currentClothes, onHover, onLeave, onClick, onChangeLayer }) {
+  if (!Array.isArray(clothes)) return null;
 
   return (
     <div className="available-clothes-container">
-      {clothes.map((item, index) => (
+      {clothes.map((item) => (
         <div
-          key={index}
-          className="clothing-item"
+          key={item.id}
+          className={`clothing-item ${currentClothes[category]?.id === item.id ? "selected" : ""}`}
           onMouseEnter={() => onHover(item)}
           onMouseLeave={() => onLeave()}
           onClick={() => onClick(item)}
         >
           <img src={item.image} alt={item.name} />
-
-          {/* Layer buttons only for the selected item */}
-          {selectedItem && selectedItem.id === item.id && (
+          {item.zIndex !== undefined && (
             <div className="layer-buttons">
-              <button onClick={() => onChangeLayer(item, 1)}>⬆️</button>
-              <button onClick={() => onChangeLayer(item, -1)}>⬇️</button>
+              <button onClick={(e) => { e.stopPropagation(); onChangeLayer(category, 1); }}>⬆️</button>
+              <button onClick={(e) => { e.stopPropagation(); onChangeLayer(category, -1); }}>⬇️</button>
             </div>
           )}
+          <div className="item-name">{item.name}</div>
         </div>
       ))}
     </div>
