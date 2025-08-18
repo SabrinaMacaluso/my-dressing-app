@@ -6,39 +6,70 @@ import html2canvas from "html2canvas";
 import "./App.css";
 
 function App() {
-  const [types] = useState(["dress", "hair", "shoes", "pant", "skirt", "top"]);
-
+  const [types] = useState(["dress", "hair", "shoe", "pant", "skirt", "top"]);
   const [selectedType, setSelectedType] = useState(null);
   const [clothes, setClothes] = useState([]);
   const [currentClothes, setCurrentClothes] = useState({});
   const [previewClothes, setPreviewClothes] = useState({});
 
-  // Fetch clothes from backend when category changes
+  // Keep a separate array for layer order
+  const [layerOrder, setLayerOrder] = useState([]);
+
+  // Fetch clothes for selected type
   useEffect(() => {
     if (!selectedType) return;
     fetch(`http://localhost:5000/api/outfits?type=${selectedType}`)
       .then((res) => res.json())
-      .then((data) => setClothes(data))
+      .then((data) => setClothes(Array.isArray(data) ? data : []))
       .catch(console.error);
   }, [selectedType]);
 
-  // Download doll with outfits
+  // Handle clicking a clothing item
+  const handleClickItem = (item) => {
+    setCurrentClothes((prev) => {
+      const newClothes = { ...prev, [selectedType]: item };
+
+      // If it's a new item in the outfit, add type to layerOrder at the top
+      setLayerOrder((prevOrder) => {
+        if (!prevOrder.includes(selectedType)) {
+          return [...prevOrder, selectedType];
+        }
+        return prevOrder;
+      });
+
+      return newClothes;
+    });
+  };
+
+  // Handle moving layers up/down
+  const handleChangeLayer = (item, direction) => {
+    const index = layerOrder.indexOf(selectedType);
+    if (index === -1) return;
+
+    const newIndex = index + direction;
+    if (newIndex < 0 || newIndex >= layerOrder.length) return;
+
+    const newLayerOrder = [...layerOrder];
+    [newLayerOrder[index], newLayerOrder[newIndex]] = [newLayerOrder[newIndex], newLayerOrder[index]];
+    setLayerOrder(newLayerOrder);
+  };
+
   const downloadOutfit = () => {
     const dollElement = document.getElementById("doll-container");
     if (!dollElement) return;
 
-    html2canvas(dollElement, { useCORS: true }).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = "my-outfit.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    }).catch(err => console.error("Failed to capture doll:", err));
+    html2canvas(dollElement, { useCORS: true })
+      .then((canvas) => {
+        const link = document.createElement("a");
+        link.download = "my-outfit.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      })
+      .catch((err) => console.error("Failed to capture doll:", err));
   };
 
   return (
     <div className="main-layout">
-      
-      {/* Header & Menu */}
       <div className="header">
         <h1>My Dressing Website</h1>
         <div className="menu">
@@ -48,31 +79,27 @@ function App() {
       </div>
 
       <div className="app">
-        {/* Left panel */}
         <DressingPanel types={types} onSelectType={setSelectedType} />
 
-        {/* Center doll */}
-        <Doll currentClothes={currentClothes} previewClothes={previewClothes} />
+        <Doll currentClothes={currentClothes} layerOrder={layerOrder} />
 
-        {/* Right clothes panel */}
         {selectedType && (
           <AvailableClothes
             clothes={clothes}
             category={selectedType}
+            currentClothes={currentClothes}
             onHover={(item) =>
               setPreviewClothes({ ...previewClothes, [selectedType]: item })
             }
             onLeave={() =>
               setPreviewClothes({ ...previewClothes, [selectedType]: null })
             }
-            onClick={(item) =>
-              setCurrentClothes({ ...currentClothes, [selectedType]: item })
-            }
+            onClick={handleClickItem}
+            onChangeLayer={handleChangeLayer}
           />
         )}
       </div>
 
-      {/* Download button */}
       <div style={{ marginTop: "20px" }}>
         <button className="download-btn" onClick={downloadOutfit}>
           Download Outfit
