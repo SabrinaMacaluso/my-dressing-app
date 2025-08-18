@@ -1,17 +1,16 @@
+
 /* App.css */
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
 }
-
 /* Layout wrapper */
 .main-layout {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 /* Header Navigation */
 .header {
   width: 100%;
@@ -24,19 +23,16 @@ body {
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 20px 20px;
 }
-
 .header h1 {
   margin: 0;
   font-size: 24px;
   color: #ff4b6e;
 }
-
 /* Modern Menu */
 .nav-menu {
   display: flex;
   gap: 20px;
 }
-
 .nav-menu button {
   padding: 8px 18px;
   font-size: 16px;
@@ -48,13 +44,11 @@ body {
   transition: all 0.3s;
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
-
 .nav-menu button:hover {
   background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
   color: white;
   transform: scale(1.05);
 }
-
 /* Main App Grid */
 .app {
   display: grid;
@@ -68,48 +62,41 @@ body {
   width: 100%;
   margin: 20px 0;
 }
-
 /* Doll */
 .doll-section {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
 #doll-container {
   border-radius: 20px;
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
 /* Dressing Panel */
 .dressing-panel {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-
 .dressing-panel button {
   padding: 10px 20px;
   border-radius: 25px;
   border: none;
-  background: white;
+  background: #eb8cc3;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
 }
-
 .dressing-panel button:hover {
   background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
   color: white;
   transform: scale(1.05);
 }
-
 .dressing-panel button:active {
   transform: scale(0.95);
 }
-
 
 
 /* Modern Download Button */
@@ -125,12 +112,7 @@ body {
   box-shadow: 0 6px 15px rgba(0,0,0,0.2);
   transition: all 0.3s;
 }
-
 .download-button:hover {
   background: linear-gradient(135deg, #ff4b6e 0%, #ff6fa1 100%);
   transform: scale(1.05) rotate(-1deg);
 }
-
-
-
-

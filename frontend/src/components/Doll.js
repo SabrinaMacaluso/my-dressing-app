@@ -4,7 +4,7 @@ function Doll({ currentClothes, layerOrder }) {
     width: "400px",
     height: "800px",
     border: "1px solid black",
-    backgroundColor: "#f86aa0ff",
+    backgroundColor: "#ec6889ff",
   };
 
   const imgStyle = {
@@ -23,6 +23,7 @@ function Doll({ currentClothes, layerOrder }) {
         alt="Doll"
         style={imgStyle}
         crossOrigin="anonymous"
+
       />
 
       {/* Render clothes based on layerOrder */}
@@ -39,6 +40,10 @@ function Doll({ currentClothes, layerOrder }) {
           />
         );
       })}
+
+    
+        
+ 
     </div>
   );
 }

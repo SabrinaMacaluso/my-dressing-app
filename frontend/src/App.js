@@ -54,6 +54,15 @@ function App() {
     setLayerOrder(newLayerOrder);
   };
 
+const handleRemoveCloth = (category) => {
+  setCurrentClothes((prev) => ({
+    ...prev,
+    [category]: null,
+  }));
+};
+
+
+
   const downloadOutfit = () => {
     const dollElement = document.getElementById("doll-container");
     if (!dollElement) return;
@@ -81,22 +90,25 @@ function App() {
       <div className="app">
         <DressingPanel types={types} onSelectType={setSelectedType} />
 
-        <Doll currentClothes={currentClothes} layerOrder={layerOrder} />
+        <Doll currentClothes={currentClothes} layerOrder={layerOrder}
+         />
 
         {selectedType && (
-          <AvailableClothes
-            clothes={clothes}
-            category={selectedType}
-            currentClothes={currentClothes}
-            onHover={(item) =>
-              setPreviewClothes({ ...previewClothes, [selectedType]: item })
-            }
-            onLeave={() =>
-              setPreviewClothes({ ...previewClothes, [selectedType]: null })
-            }
-            onClick={handleClickItem}
-            onChangeLayer={handleChangeLayer}
-          />
+     <AvailableClothes
+  clothes={clothes}
+  category={selectedType}
+  currentClothes={currentClothes}
+  onHover={(item) =>
+    setPreviewClothes({ ...previewClothes, [selectedType]: item })
+  }
+  onLeave={() =>
+    setPreviewClothes({ ...previewClothes, [selectedType]: null })
+  }
+  onClick={handleClickItem}
+  onChangeLayer={handleChangeLayer}
+  onRemove={handleRemoveCloth} // ✅ pass function, not pre-bound selectedType
+/>
+
         )}
       </div>
 

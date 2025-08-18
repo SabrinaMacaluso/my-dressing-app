@@ -1,10 +1,17 @@
 import "../AvailableClothes.css";
 
-function AvailableClothes({ clothes, category, currentClothes, onHover, onLeave, onClick, onChangeLayer }) {
+function AvailableClothes({ clothes, category, currentClothes, onHover, onLeave, onClick, onChangeLayer, onRemove }) {
   if (!Array.isArray(clothes)) return null;
 
   return (
     <div className="available-clothes-container">
+      <div className="available-clothes-header">
+  <h3>{category}</h3>
+  {currentClothes[category] && (
+    <button onClick={() => onRemove(category)}>Remove</button>
+  )}
+</div>
+
       {clothes.map((item) => (
         <div
           key={item.id}
@@ -21,6 +28,11 @@ function AvailableClothes({ clothes, category, currentClothes, onHover, onLeave,
             </div>
           )}
           <div className="item-name">{item.name}</div>
+
+          <div className="available-clothes-header">
+
+
+</div>
         </div>
       ))}
     </div>
