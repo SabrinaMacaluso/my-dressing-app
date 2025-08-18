@@ -1,5 +1,3 @@
-
-
 function Doll({ currentClothes, previewClothes }) {
   const dollStyle = {
     position: "relative",
@@ -17,31 +15,20 @@ function Doll({ currentClothes, previewClothes }) {
     height: "100%"
   };
 
+  const types = Object.keys(currentClothes); // dynamically get all types
+
   return (
-<div id="doll-container" style={dollStyle}>
-  <img src="/images/doll.png" alt="Doll" style={imgStyle} crossOrigin="anonymous" />
-
- {currentClothes['dress'] && (
-  <img 
-    src={currentClothes['dress'].image} 
-    alt="" 
-    style={imgStyle} 
-    crossOrigin="anonymous" 
-  />
-)}
-  {currentClothes['hat'] && (
-    <img src={currentClothes['hat'].image} alt="" style={imgStyle} crossOrigin="anonymous" />
-  )}
-  {currentClothes['hair'] && (
-    <img src={currentClothes['hair'].image} alt="" style={imgStyle} crossOrigin="anonymous" />
-  )}
-  {currentClothes['shoes'] && (
-    <img src={currentClothes['shoes'].image} alt="" style={imgStyle} crossOrigin="anonymous" />
-  )}
-</div>
-
+    <div id="doll-container" style={dollStyle}>
+      <img src="/images/doll.png" alt="Doll" style={imgStyle} crossOrigin="anonymous" />
+      
+      {types.map((type) => {
+        const item = previewClothes[type] || currentClothes[type]; // preview overrides current
+        return item ? (
+          <img key={type} src={item.image} alt={type} style={imgStyle} crossOrigin="anonymous" />
+        ) : null;
+      })}
+    </div>
   );
 }
-
 
 export default Doll;

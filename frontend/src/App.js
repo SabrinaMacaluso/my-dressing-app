@@ -6,7 +6,8 @@ import html2canvas from "html2canvas";
 import "./App.css";
 
 function App() {
-  const [types] = useState(["dress", "hair", "shoes"]);
+  const [types] = useState(["dress", "hair", "shoes", "pant", "skirt", "top"]);
+
   const [selectedType, setSelectedType] = useState(null);
   const [clothes, setClothes] = useState([]);
   const [currentClothes, setCurrentClothes] = useState({});
