@@ -1,70 +1,121 @@
-# Getting Started with Create React App
+Got it 👍 let’s make a **clean README.md** that documents your project so far.
+Here’s a draft you can paste into your repo:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+# 👗 Doll Website
 
-In the project directory, you can run:
+A simple **virtual dress-up web app** where users can select clothing items (dress, hair, shoes, top, skirt, pants) and see them layered on a doll.
+The project is built with **React (frontend)** and **Express (backend)**, running inside **WSL**.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Features (so far)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* 🖼️ **Base doll rendering** with layered clothes (images stacked by `z-index`).
+* 🎨 **Categories of clothes** (dress, hair, shoes, top, skirt, pant).
+* 🧩 **Interactive panel** to choose available clothes by category.
+* 👀 **Hover preview** before selecting an item.
+* 🗑️ **Remove button per category** to clear clothes.
+* 💾 **Download button** to export the dressed doll as an image.
+* 🔗 **Backend API** serving clothes JSON + static outfit images.
+* 🌐 **WSL network fix**: backend accessible via WSL IP with proper CORS config.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tech Stack
 
-### `npm run build`
+* **Frontend:** React, CSS (custom)
+* **Backend:** Node.js + Express
+* **Environment:** WSL2 (Windows Subsystem for Linux)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📂 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+.
+├── backenddevelop/
+│   ├── index.js            # Express backend server
+│   ├── outfits/            # Static images (dress1.png, hair1.png, etc.)
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── App.js          # Main app layout
+│   │   ├── components/
+│   │   │   ├── Doll.js     # Doll renderer with layers
+│   │   │   ├── DressingPanel.js
+│   │   │   ├── AvailableClothes.js
+│   │   │   └── ...
+│   │   └── styles.css
+│   └── package.json
+│
+└── README.md
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ⚡ How to Run
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1. Start Backend
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+cd backenddevelop
+npm install
+node index.js
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Backend runs at:
+👉 `http://<WSL_IP>:5000`
 
-## Learn More
+### 2. Start Frontend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd frontend
+npm install
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Frontend runs at:
+👉 `http://localhost:3000`
 
-### Code Splitting
+⚠️ Make sure to update the **frontend API base URL** with your WSL IP (e.g., `http://172.xx.xx.xx:5000`).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 📡 API Endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* `GET /api/outfits?type=dress` → returns JSON list of dresses
+* `GET /api/outfits?type=hair` → returns JSON list of hairstyles
+* (similar for `shoe`, `top`, `skirt`, `pant`)
 
-### Making a Progressive Web App
+Each item has:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```json
+{
+  "id": 1,
+  "name": "Dress 1",
+  "image": "http://<WSL_IP>:5000/outfits/dress1.png",
+  "zIndex": 3
+}
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📝 Next Steps / Roadmap
 
-### Deployment
+* Add more clothes & categories.
+* Improve UI styling (nicer clothing panel, draggable clothes, etc).
+* Add persistence (save outfits).
+* Deploy backend & frontend outside WSL (Docker / cloud).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 👩 Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Made by Sabrina
+
+---
+
+
