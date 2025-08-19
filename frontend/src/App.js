@@ -1,124 +1,32 @@
-import { useState, useEffect } from "react";
-import Doll from "./components/Doll";
-import DressingPanel from "./components/DressingPanel";
-import AvailableClothes from "./components/AvailableClothes";
-import html2canvas from "html2canvas";
+// srcdevelop/App.js
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
+import Dressing from "./pages/Dressing";
+import HairSalon from "./pages/HairSalon";
+import MakeupSalon from "./pages/MakeupSalon";
+import Shopping from "./pages/Shopping";
+
 import "./App.css";
-import { BASE_URL } from "./baseUrl";
 
 function App() {
-  const [types] = useState(["dress", "hair", "shoe", "pant", "skirt", "top"]);
-  const [selectedType, setSelectedType] = useState(null);
-  const [clothes, setClothes] = useState([]);
-  const [currentClothes, setCurrentClothes] = useState({});
-  const [previewClothes, setPreviewClothes] = useState({});
-
-  // Keep a separate array for layer order
-  const [layerOrder, setLayerOrder] = useState([]);
-
-  // Fetch clothes for selected type
-  useEffect(() => {
-    if (!selectedType) return;
-    fetch(`${BASE_URL}/api/outfits?type=${selectedType}`)
-      .then((res) => res.json())
-      .then((data) => setClothes(Array.isArray(data) ? data : []))
-      .catch(console.error);
-  }, [selectedType]);
-
-  // Handle clicking a clothing item
-  const handleClickItem = (item) => {
-    setCurrentClothes((prev) => {
-      const newClothes = { ...prev, [selectedType]: item };
-
-      // If it's a new item in the outfit, add type to layerOrder at the top
-      setLayerOrder((prevOrder) => {
-        if (!prevOrder.includes(selectedType)) {
-          return [...prevOrder, selectedType];
-        }
-        return prevOrder;
-      });
-
-      return newClothes;
-    });
-  };
-
-  // Handle moving layers up/down
-  const handleChangeLayer = (item, direction) => {
-    const index = layerOrder.indexOf(selectedType);
-    if (index === -1) return;
-
-    const newIndex = index + direction;
-    if (newIndex < 0 || newIndex >= layerOrder.length) return;
-
-    const newLayerOrder = [...layerOrder];
-    [newLayerOrder[index], newLayerOrder[newIndex]] = [newLayerOrder[newIndex], newLayerOrder[index]];
-    setLayerOrder(newLayerOrder);
-  };
-
-const handleRemoveCloth = (category) => {
-  setCurrentClothes((prev) => ({
-    ...prev,
-    [category]: null,
-  }));
-};
-
-
-
-  const downloadOutfit = () => {
-    const dollElement = document.getElementById("doll-container");
-    if (!dollElement) return;
-
-    html2canvas(dollElement, { useCORS: true })
-      .then((canvas) => {
-        const link = document.createElement("a");
-        link.download = "my-outfit.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      })
-      .catch((err) => console.error("Failed to capture doll:", err));
-  };
-
   return (
-    <div className="main-layout">
-      <div className="header">
-        <h1>My Dressing Website</h1>
-        <div className="menu">
-          <button className="menu-btn">Home</button>
-          <button className="menu-btn">Dressing</button>
-        </div>
-      </div>
+    <Router>
+      <nav className="header">
+        <Link className="menu-btn" to="/">Home</Link>
+        <Link className="menu-btn" to="/dressing">Dressing</Link>
+        <Link className="menu-btn" to="/hair-salon">Hair Salon</Link>
+        <Link className="menu-btn" to="/makeup-salon">Make Up Salon</Link>
+        <Link className="menu-btn" to="/shopping">Shopping</Link>
+      </nav>
 
-      <div className="app">
-        <DressingPanel types={types} onSelectType={setSelectedType} />
-
-        <Doll currentClothes={currentClothes} layerOrder={layerOrder}
-         />
-
-        {selectedType && (
-     <AvailableClothes
-  clothes={clothes}
-  category={selectedType}
-  currentClothes={currentClothes}
-  onHover={(item) =>
-    setPreviewClothes({ ...previewClothes, [selectedType]: item })
-  }
-  onLeave={() =>
-    setPreviewClothes({ ...previewClothes, [selectedType]: null })
-  }
-  onClick={handleClickItem}
-  onChangeLayer={handleChangeLayer}
-  onRemove={handleRemoveCloth} // ✅ pass function, not pre-bound selectedType
-/>
-
-        )}
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <button className="download-button" onClick={downloadOutfit}>
-          Download Outfit
-        </button>
-      </div>
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dressing" element={<Dressing />} />
+        <Route path="/hair-salon" element={<HairSalon />} />
+        <Route path="/makeup-salon" element={<MakeupSalon />} />
+        <Route path="/shopping" element={<Shopping />} />
+      </Routes>
+    </Router>
   );
 }
 
