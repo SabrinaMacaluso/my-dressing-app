@@ -4,6 +4,7 @@ import DressingPanel from "./components/DressingPanel";
 import AvailableClothes from "./components/AvailableClothes";
 import html2canvas from "html2canvas";
 import "./App.css";
+import { BASE_URL } from "./baseUrl";
 
 function App() {
   const [types] = useState(["dress", "hair", "shoe", "pant", "skirt", "top"]);
@@ -18,7 +19,7 @@ function App() {
   // Fetch clothes for selected type
   useEffect(() => {
     if (!selectedType) return;
-    fetch(`http://localhost:5000/api/outfits?type=${selectedType}`)
+    fetch(`${BASE_URL}/api/outfits?type=${selectedType}`)
       .then((res) => res.json())
       .then((data) => setClothes(Array.isArray(data) ? data : []))
       .catch(console.error);

@@ -1,7 +1,9 @@
+import { BASE_URL } from "../baseUrl";
+
 export default function ClothingIcon({ item, onHover, onClick }) {
   return (
     <img
-      src={`http://localhost:5000/outfits/${item}`}
+      src={`${BASE_URL}/outfits/${item}`}
       alt={item}
       className="clothing-icon"
       onMouseEnter={onHover}
