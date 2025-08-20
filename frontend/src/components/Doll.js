@@ -1,3 +1,6 @@
+
+
+
 function Doll({ currentClothes, layerOrder }) {
   const imgStyle = {
     position: "absolute",
@@ -16,6 +19,8 @@ function Doll({ currentClothes, layerOrder }) {
         style={imgStyle}
         crossOrigin="anonymous"
       />
+
+
 
       {/* Render clothes based on layerOrder */}
       {layerOrder.map((type, i) => {

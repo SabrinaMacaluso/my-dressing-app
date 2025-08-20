@@ -6,6 +6,8 @@ import AvailableClothes from "../components/AvailableClothes";
 import html2canvas from "html2canvas";
 import { BASE_URL } from "../baseUrl";
 import "../App.css";
+import { Download } from "lucide-react";
+import { Save } from "lucide-react";
 
 function Dressing() {
   const [types] = useState(["dress", "hair", "shoe", "pant", "skirt", "top"]);
@@ -67,9 +69,21 @@ function Dressing() {
       <div className="dressing-app">
         <div className="doll-wrapper">
           <Doll currentClothes={currentClothes} layerOrder={layerOrder} />
-          <button className="download-button" onClick={downloadOutfit}>
-            Save Outfit
-          </button>
+
+<div className="button-row">
+  {/* Dl button with logo */}
+  <button className="download-button" onClick={downloadOutfit}>
+    <Download size={20} style={{ marginRight: "8px" }} />
+    
+  </button>
+
+  {/* Save button with logo */}
+  <button className="download-button">
+    <Save size={20} style={{ marginRight: "8px" }} />
+
+  </button>
+</div>
+
         </div>
 
         {/* Sidebar with flex layout */}
@@ -87,6 +101,8 @@ function Dressing() {
                 </button>
               ))}
             </div>
+
+            
 
             {/* Right: Available Clothes */}
             {selectedType && (
