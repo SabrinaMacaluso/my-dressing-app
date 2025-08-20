@@ -1,4 +1,4 @@
-// srcdevelop/pages/Home.js
+// srcdevelop/pages/Dressing.js
 import { useState, useEffect } from "react";
 import Doll from "../components/Doll";
 import DressingPanel from "../components/DressingPanel";
@@ -7,7 +7,7 @@ import html2canvas from "html2canvas";
 import { BASE_URL } from "../baseUrl";
 import "../App.css";
 
-function Home() {
+function Dressing() {
   const [types] = useState(["dress", "hair", "shoe", "pant", "skirt", "top"]);
   const [selectedType, setSelectedType] = useState(null);
   const [clothes, setClothes] = useState([]);
@@ -64,35 +64,54 @@ function Home() {
 
   return (
     <div className="main-layout">
-      <div className="header">
-        <h1>My Dressing Website</h1>
-      </div>
+      <div className="dressing-app">
+        <div className="doll-wrapper">
+          <Doll currentClothes={currentClothes} layerOrder={layerOrder} />
+          <button className="download-button" onClick={downloadOutfit}>
+            Save Outfit
+          </button>
+        </div>
 
-      <div className="app">
-        <DressingPanel types={types} onSelectType={setSelectedType} />
-        <Doll currentClothes={currentClothes} layerOrder={layerOrder} />
+        {/* Sidebar with flex layout */}
+        <div className="clothes-sidebar">
+          <div className="sidebar-inner">
+            {/* Left: Category Buttons */}
+            <div className="category-buttons">
+              {types.map((type) => (
+                <button
+                  key={type}
+                  className={`category-button ${selectedType === type ? "active" : ""}`}
+                  onClick={() => setSelectedType(type)}
+                >
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                </button>
+              ))}
+            </div>
 
-        {selectedType && (
-          <AvailableClothes
-            clothes={clothes}
-            category={selectedType}
-            currentClothes={currentClothes}
-            onHover={(item) => setPreviewClothes({ ...previewClothes, [selectedType]: item })}
-            onLeave={() => setPreviewClothes({ ...previewClothes, [selectedType]: null })}
-            onClick={handleClickItem}
-            onChangeLayer={handleChangeLayer}
-            onRemove={handleRemoveCloth}
-          />
-        )}
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <button className="download-button" onClick={downloadOutfit}>
-          Download Outfit
-        </button>
+            {/* Right: Available Clothes */}
+            {selectedType && (
+              <div className="available-clothes-wrapper">
+                <AvailableClothes
+                  clothes={clothes}
+                  category={selectedType}
+                  currentClothes={currentClothes}
+                  onHover={(item) =>
+                    setPreviewClothes({ ...previewClothes, [selectedType]: item })
+                  }
+                  onLeave={() =>
+                    setPreviewClothes({ ...previewClothes, [selectedType]: null })
+                  }
+                  onClick={handleClickItem}
+                  onChangeLayer={handleChangeLayer}
+                  onRemove={handleRemoveCloth}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Home;
+export default Dressing;

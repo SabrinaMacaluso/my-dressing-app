@@ -1,12 +1,4 @@
 function Doll({ currentClothes, layerOrder }) {
-  const dollStyle = {
-    position: "relative",
-    width: "400px",
-    height: "800px",
-    border: "1px solid black",
-    backgroundColor: "#ec6889ff",
-  };
-
   const imgStyle = {
     position: "absolute",
     top: 0,
@@ -16,14 +8,13 @@ function Doll({ currentClothes, layerOrder }) {
   };
 
   return (
-    <div id="doll-container" style={dollStyle}>
+    <div id="doll-container" className="doll-container">
       {/* Base doll */}
       <img
         src="/images/doll.png"
         alt="Doll"
         style={imgStyle}
         crossOrigin="anonymous"
-
       />
 
       {/* Render clothes based on layerOrder */}
@@ -40,10 +31,6 @@ function Doll({ currentClothes, layerOrder }) {
           />
         );
       })}
-
-    
-        
- 
     </div>
   );
 }

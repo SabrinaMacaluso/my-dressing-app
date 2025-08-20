@@ -1,5 +1,5 @@
 // srcdevelop/App.js
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, NavLink } from "react-router-dom";
 import Home from "./pages/Home";
 import Dressing from "./pages/Dressing";
 import HairSalon from "./pages/HairSalon";
@@ -11,13 +11,18 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <nav className="header">
-        <Link className="menu-btn" to="/">Home</Link>
-        <Link className="menu-btn" to="/dressing">Dressing</Link>
-        <Link className="menu-btn" to="/hair-salon">Hair Salon</Link>
-        <Link className="menu-btn" to="/makeup-salon">Make Up Salon</Link>
-        <Link className="menu-btn" to="/shopping">Shopping</Link>
-      </nav>
+      <header className="header">
+        <div className="logo">💖 My Doll World</div>
+
+        <nav className="nav-menu">
+          <NavLink to="/" className="menu-btn">Home</NavLink>
+          <NavLink to="/dressing" className="menu-btn">Dressing</NavLink>
+          <NavLink to="/hair-salon" className="menu-btn">Hair Salon</NavLink>
+          <NavLink to="/makeup-salon" className="menu-btn">Make Up</NavLink>
+          <NavLink to="/shopping" className="menu-btn">Shopping</NavLink>
+        </nav>
+      </header>
+
 
       <Routes>
         <Route path="/" element={<Home />} />

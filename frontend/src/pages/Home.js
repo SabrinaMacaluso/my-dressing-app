@@ -6,7 +6,7 @@ export default function WelcomePage() {
       <h1>Welcome to My Dressing Website!</h1>
       <p>Explore and dress your doll!</p>
       <Link to="/dressing">
-        <button>Go to Dressing</button>
+        <button className="menu-btn">Go to Dressing</button>
       </Link>
     </div>
   );
