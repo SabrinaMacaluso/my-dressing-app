@@ -161,12 +161,16 @@ body {
   align-items: flex-start;
   gap: 30px;
   padding: 20px;
-  background: url('../public/images/girly-room.jpg') no-repeat center;
+  background: url('../public/images/dressing2.jpg') no-repeat center;
   background-size: cover;
   border-radius: 20px;
   max-width: 1200px;
   width: 100%;
   margin: 20px auto;
+
+  /* 👇 shrink proportionally */
+  transform: scale(0.8);   /* 85% size = reduced by 15% */
+  transform-origin: top center; /* keep it centered while scaling */
 }
 
 .doll-wrapper {
@@ -282,4 +286,25 @@ body {
   gap: 12px; /* space between buttons */
   margin-top: 12px; /* push them a bit down from the doll */
   justify-content: center; /* center under the doll */
+}
+
+
+
+
+.toggle-sidebar-button {
+  padding: 10px 16px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(135deg, #ff9acb 0%, #ff6fa1 100%);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(255,100,150,0.3);
+  transition: all 0.3s ease;
+}
+
+.toggle-sidebar-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(255,100,150,0.5);
 }

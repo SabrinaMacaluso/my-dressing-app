@@ -6,8 +6,7 @@ import AvailableClothes from "../components/AvailableClothes";
 import html2canvas from "html2canvas";
 import { BASE_URL } from "../baseUrl";
 import "../App.css";
-import { Download } from "lucide-react";
-import { Save } from "lucide-react";
+import { Download, Save, ArrowRight, ArrowLeft } from "lucide-react";
 
 function Dressing() {
   const [types] = useState(["dress", "hair", "shoe", "pant", "skirt", "top"]);
@@ -16,9 +15,11 @@ function Dressing() {
   const [currentClothes, setCurrentClothes] = useState({});
   const [previewClothes, setPreviewClothes] = useState({});
   const [layerOrder, setLayerOrder] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // <- Toggle sidebar
 
   useEffect(() => {
     if (!selectedType) return;
+
     fetch(`${BASE_URL}/api/outfits?type=${selectedType}`)
       .then((res) => res.json())
       .then((data) => setClothes(Array.isArray(data) ? data : []))
@@ -39,8 +40,10 @@ function Dressing() {
   const handleChangeLayer = (item, direction) => {
     const index = layerOrder.indexOf(selectedType);
     if (index === -1) return;
+
     const newIndex = index + direction;
     if (newIndex < 0 || newIndex >= layerOrder.length) return;
+
     const newLayerOrder = [...layerOrder];
     [newLayerOrder[index], newLayerOrder[newIndex]] = [newLayerOrder[newIndex], newLayerOrder[index]];
     setLayerOrder(newLayerOrder);
@@ -66,64 +69,71 @@ function Dressing() {
 
   return (
     <div className="main-layout">
-      <div className="dressing-app">
+      {/* Container scaling 80% */}
+      <div className="dressing-app" style={{ transform: "scale(0.8)", transformOrigin: "top center" }}>
+        {/* Doll wrapper */}
         <div className="doll-wrapper">
           <Doll currentClothes={currentClothes} layerOrder={layerOrder} />
-
-<div className="button-row">
-  {/* Dl button with logo */}
-  <button className="download-button" onClick={downloadOutfit}>
-    <Download size={20} style={{ marginRight: "8px" }} />
-    
-  </button>
-
-  {/* Save button with logo */}
-  <button className="download-button">
-    <Save size={20} style={{ marginRight: "8px" }} />
-
-  </button>
-</div>
-
+          
+          {/* Download / Save buttons */}
+          <div className="button-row">
+            <button className="download-button" onClick={downloadOutfit}>
+              <Download size={20} style={{ marginRight: "8px" }} />
+            </button>
+            <button className="download-button">
+              <Save size={20} style={{ marginRight: "8px" }} />
+            </button>
+          </div>
         </div>
 
-        {/* Sidebar with flex layout */}
-        <div className="clothes-sidebar">
-          <div className="sidebar-inner">
-            {/* Left: Category Buttons */}
-            <div className="category-buttons">
-              {types.map((type) => (
-                <button
-                  key={type}
-                  className={`category-button ${selectedType === type ? "active" : ""}`}
-                  onClick={() => setSelectedType(type)}
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </button>
-              ))}
-            </div>
+        {/* Sidebar toggle */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "12px" }}>
+          <button
+            className="toggle-sidebar-button"
+            onClick={() => setSidebarOpen((prev) => !prev)}
+            title={sidebarOpen ? "Fermer la sidebar" : "Ouvrir la sidebar"}
+          >
+             {sidebarOpen ? <><ArrowRight size={20} /> Fermer</> : <><ArrowLeft size={20} /> Ouvrir</>}
+          </button>
 
-            
+          {sidebarOpen && (
+            <div className="clothes-sidebar">
+              <div className="sidebar-inner">
+                {/* Category Buttons */}
+                <div className="category-buttons">
+                  {types.map((type) => (
+                    <button
+                      key={type}
+                      className={`category-button ${selectedType === type ? "active" : ""}`}
+                      onClick={() => setSelectedType(type)}
+                    >
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                  ))}
+                </div>
 
-            {/* Right: Available Clothes */}
-            {selectedType && (
-              <div className="available-clothes-wrapper">
-                <AvailableClothes
-                  clothes={clothes}
-                  category={selectedType}
-                  currentClothes={currentClothes}
-                  onHover={(item) =>
-                    setPreviewClothes({ ...previewClothes, [selectedType]: item })
-                  }
-                  onLeave={() =>
-                    setPreviewClothes({ ...previewClothes, [selectedType]: null })
-                  }
-                  onClick={handleClickItem}
-                  onChangeLayer={handleChangeLayer}
-                  onRemove={handleRemoveCloth}
-                />
+                {/* Available Clothes */}
+                {selectedType && (
+                  <div className="available-clothes-wrapper">
+                    <AvailableClothes
+                      clothes={clothes}
+                      category={selectedType}
+                      currentClothes={currentClothes}
+                      onHover={(item) =>
+                        setPreviewClothes({ ...previewClothes, [selectedType]: item })
+                      }
+                      onLeave={() =>
+                        setPreviewClothes({ ...previewClothes, [selectedType]: null })
+                      }
+                      onClick={handleClickItem}
+                      onChangeLayer={handleChangeLayer}
+                      onRemove={handleRemoveCloth}
+                    />
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
