@@ -46,3 +46,13 @@ jobs:
       - name: Use the variable from build
         run: |
           echo 'The message from build is: ${{ needs.build.outputs.mymessage }}'
+
+  test-secrets:
+    runs-on: [self-hosted, linux]
+    steps:
+      - name: show secret
+        run: |
+          echo 'My secret is: $SECRET'
+        env:
+          SECRET: ${{ secrets.MY_SECRET }}
+  
